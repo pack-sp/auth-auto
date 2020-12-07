@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "636baa46-a37b-4a6e-8d5a-7ed931530f70",
+		"name": "Auth",
+		"description": "Teste de registro e login de usuario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a733f038-d445-4ea4-b216-80bbc52f95b3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"pm.test(\"Check if the status is not false\", function() {\r",
+							"    pm.expect(true).to.eql(JSON.parse(responseBody).user.status);\r",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3cc41a16-c851-4030-afc9-079f9b71c248",
+						"exec": [
+							"//First Name Generator\r",
+							"function firstname() {\r",
+							"\r",
+							"    var firstName = [\"Agda\", \"Antonio\", \"Berenice\", \"Bento\", \"Carla\", \"Conrado\", \"Daniela\", \"Dante\", \"Erica\", \"Elder\", \"Fabiana\", \"Fabio\", \"Giovana\", \"Gilberto\", \"Helena\", \"Horacio\", \"Ingrid\", \"Israel\", \"Jessica\", \"Joao\", \"Lidia\", \"Luis\", \"Karina\", \"Kelvin\", \"Maria\", \"Mauro\", \"Nair\", \"Norberto\", \"Olga\", \"Olivio\", \"Patricia\", \"Patrick\", \"Quezia\", \"Quirino\", \"Roberta\", \"Reinaldo\", \"Sara\", \"Samuel\", \"Tatiane\", \"Tadeu\", \"Uvalina\", \"Ubirajara\", \"Veronica\", \"Valter\", \"Waldemira\", \"Waldisney\", \"Xenia\", \"Xande\", \"Yara\", \"Yuri\", \"Zelia\", \"Ziraldo\"];\r",
+							"\r",
+							"    var randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+							"    \r",
+							"    return randomItem;\r",
+							"}\r",
+							"\r",
+							"pm.environment.set(\"FirstName\", firstname());\r",
+							"\r",
+							"//Last Name Generator\r",
+							"function lastname() {\r",
+							"\r",
+							"    var lastName = [\"Aymore\", \"Audrey\", \"Bonifacio\", \"Bonini\", \"Caruso\", \"Caze\", \"Drake\", \"Drummond\", \"Epaminondas\", \"Eternal\", \"French\", \"Forest\", \"Grunge\", \"Granger\", \"Hope\", \"Hasteca\", \"Ipon\", \"Igua\", \"Jasper\", \"Jenner\", \"Langer\", \"Lapsum\", \"Kane\", \"Kruger\", \"Morissey\", \"Mont\", \"Narnia\", \"Node\", \"Opera\", \"Otero\", \"Pontes\", \"Parmirim\", \"Quasar\", \"Querubim\", \"Round\", \"Robot\", \"Saur\", \"Sound\", \"Tabet\", \"Taurus\", \"Uva\", \"Ufo\", \"Waters\", \"West\", \"Xpath\", \"Xoronso\", \"Year\", \"Young\", \"Zante\", \"Zis\"];\r",
+							"\r",
+							"    var randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+							"    \r",
+							"    return randomItem;\r",
+							"}\r",
+							"\r",
+							"pm.environment.set(\"LastName\", lastname());\r",
+							"\r",
+							"//Concatena o primeiro e segundo nome e grava na variavel\r",
+							"pm.environment.set(\"FullName\", pm.variables.get(\"FirstName\") + \" \" + pm.variables.get(\"LastName\"));\r",
+							"\r",
+							"//Email Generator\r",
+							"function email() {\r",
+							"\r",
+							"    var email = [\"@gmail.com\", \"@hotmail.com\", \"@yahoo.com.br\"];\r",
+							"\r",
+							"    var randomItem = email[Math.floor(Math.random() * email.length)];\r",
+							"    \r",
+							"    return randomItem;\r",
+							"}\r",
+							"\r",
+							"//Passa a primeira letra de uma string para minuscula\r",
+							"String.prototype.minuscula = function () {\r",
+							"  return this.charAt(0).toLowerCase() + this.slice(1);\r",
+							"}\r",
+							"\r",
+							"pm.environment.set(\"Email\", pm.variables.get(\"FirstName\").minuscula() + \".\" + pm.variables.get(\"LastName\").minuscula() + email());\r",
+							"\r",
+							"//Password Generator\r",
+							"function password() {\r",
+							"\r",
+							"    var password = [\"2Pc$1996\", \"Rec@2020\", \"Olaf#2020\", \"Suave%2020\"];\r",
+							"\r",
+							"    var randomItem = password[Math.floor(Math.random() * password.length)];\r",
+							"    \r",
+							"    return randomItem;\r",
+							"}\r",
+							"\r",
+							"pm.environment.set(\"Password\", password());\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{FullName}}\",\r\n    \"email\": \"{{Email}}\",\r\n    \"password\": \"{{Password}}\",\r\n    \"confirm_password\":\"{{Password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
